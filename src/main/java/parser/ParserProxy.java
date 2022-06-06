@@ -1,27 +1,48 @@
 package parser;
 
+import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class ParserProxy implements InvocationHandler {
-    private static final FormatParser parser;
-    private Object obj;
+    private static FormatParser parser;
+    private static final JSONParser jsonParser;
 
-    private ParserProxy(Object obj) {
-        this.obj = obj;
+    static {
+        jsonParser = new JSONParser();
     }
 
-    public static FormatParser newInstance(Object target) {
-        return Proxy.newProxyInstance(
-                target.getClass().getClassLoader(),
-                target.getClass().getInterfaces(),
-                new ParserProxy(target));
+    private ParserProxy(Object obj) {
+        if(obj instanceof FormatParser) {
+            parser = (FormatParser) obj;
+        }
+    }
+
+    public static FormatParser newInstance() {
+        return jsonParser;
+    }
+    public static FormatParser newInstance(Object obj) {
+        return parser = (FormatParser) Proxy.newProxyInstance(
+                obj.getClass().getClassLoader(),
+                new Class[] {FormatParser.class},
+                new ParserProxy(obj));
     }
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if(this.obj.getClass().equals(JSONParser.class)) {
+        Object result = null;
+
+        if(method.getName().equals("changeFormat")) {
+            if(method.getParameterTypes()[0] == Format.JSON.getClass()) {
+                parser = jsonParser;
+            }
+        }
+
+        result = method.invoke(parser, args);
+        if(parser.getClass().equals(JSONParser.class)) {
 
         }
+
+        return result;
     }
 }

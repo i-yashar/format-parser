@@ -7,13 +7,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONParser implements Parser{
-    private final GsonBuilder gsonBuilder;
-    private final Gson gson;
+public class JSONParser implements FormatParser{
+    private GsonBuilder gsonBuilder;
+    private Gson gson;
 
-    public JSONParser(Gson gson) {
-        gsonBuilder =
-        this.gson = gson;
+    public JSONParser() {
+        gsonBuilder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
+        this.gson = gsonBuilder.create();
     }
 
     @Override
@@ -49,5 +49,16 @@ public class JSONParser implements Parser{
     @Override
     public <T> T deserialize(File file, Class<T> type) {
         return null;
+    }
+
+    @Override
+    public void setPrettyPrint() {
+        this.gsonBuilder.setPrettyPrinting();
+        this.gson = this.gsonBuilder.create();
+    }
+
+    @Override
+    public void changeFormat(Format format) {
+
     }
 }
