@@ -1,5 +1,7 @@
 package parser;
 
+import parser.enums.Format;
+
 import java.io.File;
 
 public interface FormatParser {

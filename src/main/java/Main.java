@@ -1,7 +1,6 @@
-import parser.Format;
+import parser.enums.Format;
 import parser.FormatParser;
-import parser.FormatParserFactoryImpl;
-import parser.Student;
+import parser.impl.FormatParserFactoryImpl;
 
 import java.util.Scanner;
 
@@ -13,9 +12,13 @@ public class Main {
 
         Student student = new Student("student", 16, "school");
 
+        Student student2 = new Student("student2", 15, "school2");
+
         parser.setPrettyPrint();
 
-        parser.serialize(student, "new_file.json");
+        parser.serialize(student2, "new_file2.json");
+
+        parser.changeFormat(Format.JSON);
 
         System.out.println("Hello world");
     }

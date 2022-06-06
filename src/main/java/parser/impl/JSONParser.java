@@ -1,13 +1,15 @@
-package parser;
+package parser.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import parser.FormatParser;
+import parser.enums.Format;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONParser implements FormatParser{
+public class JSONParser implements FormatParser {
     private GsonBuilder gsonBuilder;
     private Gson gson;
 

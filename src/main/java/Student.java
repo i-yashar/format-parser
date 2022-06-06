@@ -1,5 +1,3 @@
-package parser;
-
 import com.google.gson.annotations.Expose;
 
 public class Student {
