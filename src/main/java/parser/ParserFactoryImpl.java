@@ -1,6 +1,4 @@
-package converter;
-
-import java.lang.reflect.Proxy;
+package parser;
 
 public class FormatParserFactoryImpl implements FormatParserFactory{
     private static final FormatParser formatParser;
