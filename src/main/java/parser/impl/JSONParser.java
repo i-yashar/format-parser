@@ -5,12 +5,10 @@ import com.google.gson.GsonBuilder;
 import parser.FormatParser;
 import parser.enums.Format;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class JSONParser implements FormatParser {
-    private GsonBuilder gsonBuilder;
+    private final GsonBuilder gsonBuilder;
     private Gson gson;
 
     public JSONParser() {
@@ -25,13 +23,8 @@ public class JSONParser implements FormatParser {
 
     @Override
     public void serialize(Object object, String fileName) {
-        File file = new File(fileName);
-        try {
-            boolean isCreated = file.createNewFile();
-            this.serialize(object, file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        this.serialize(object, new File(fileName));
     }
 
     @Override
@@ -45,12 +38,20 @@ public class JSONParser implements FormatParser {
 
     @Override
     public <T> T deserialize(String fileName, Class<T> type) {
-        return null;
+        return this.deserialize(new File(fileName), type);
     }
 
     @Override
     public <T> T deserialize(File file, Class<T> type) {
-        return null;
+        T result = null;
+
+        try(FileReader fileReader = new FileReader(file);) {
+            result = this.gson.fromJson(fileReader, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override

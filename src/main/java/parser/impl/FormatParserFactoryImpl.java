@@ -4,15 +4,15 @@ import parser.FormatParser;
 import parser.FormatParserFactory;
 import parser.enums.Format;
 
-import javax.swing.text.html.parser.Parser;
-import java.lang.reflect.Proxy;
-
 public class FormatParserFactoryImpl implements FormatParserFactory {
 
     @Override
     public FormatParser create(Format format) {
+
         if(format.equals(Format.JSON)) {
-            return (FormatParser) ParserProxy.newInstance(new JSONParser());
+            return (FormatParser) FormatParserProxy.newInstance("json");
+        } else if(format.equals(Format.XML)) {
+            return (FormatParser) FormatParserProxy.newInstance("xml");
         }
 
         return null;

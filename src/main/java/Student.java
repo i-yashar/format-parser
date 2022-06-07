@@ -1,14 +1,21 @@
 import com.google.gson.annotations.Expose;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "student")
 public class Student {
 
     @Expose
+    @XmlElement
     private String name;
 
     @Expose
+    @XmlElement
     private int age;
 
     @Expose
+    @XmlElement
     private String school;
 
     public Student() {
@@ -17,30 +24,6 @@ public class Student {
     public Student(String name, int age, String school) {
         this.name = name;
         this.age = age;
-        this.school = school;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
         this.school = school;
     }
 }

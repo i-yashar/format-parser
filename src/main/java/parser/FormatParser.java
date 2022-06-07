@@ -12,8 +12,6 @@ public interface FormatParser {
 
     void serialize(Object object, File file);
 
-    //<T> T deserialize(String content, Class<T> type);
-
     <T> T deserialize(String fileName, Class<T> type);
 
     <T> T deserialize(File file, Class<T> type);
