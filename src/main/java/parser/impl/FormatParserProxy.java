@@ -55,10 +55,10 @@ public class FormatParserProxy implements InvocationHandler {
             action += "Set pretty print";
         } else if(method.getName().equals("serialize") && args.length > 1) {
             String fileName = (args[1] instanceof String) ? args[1].toString() : ((File) args[1]).getName();
-            action += "Serialize object of type " + args[0].getClass().getName() + " to file " + fileName;
+            action += "Serialize object of type " + args[0].getClass().getName() + " to file \"" + fileName + "\"";
         } else if(method.getName().equals("deserialize")) {
             String fileName = (args[0] instanceof String) ? args[0].toString() : ((File) args[0]).getName();
-            action += "Deserialize contents of file " + fileName + " to object of type " + ((Class<?>)args[1]).getSimpleName();
+            action += "Deserialize contents of file \"" + fileName + "\" to object of type " + ((Class<?>)args[1]).getSimpleName();
         }
 
         sb.append(action).append(System.lineSeparator());

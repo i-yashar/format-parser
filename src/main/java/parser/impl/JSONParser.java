@@ -24,7 +24,7 @@ public class JSONParser implements FormatParser {
     @Override
     public void serialize(Object object, String fileName) {
 
-        this.serialize(object, new File(fileName));
+        this.serialize(object, new File(PATH + fileName));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class JSONParser implements FormatParser {
 
     @Override
     public <T> T deserialize(String fileName, Class<T> type) {
-        return this.deserialize(new File(fileName), type);
+        return this.deserialize(new File(PATH + fileName), type);
     }
 
     @Override

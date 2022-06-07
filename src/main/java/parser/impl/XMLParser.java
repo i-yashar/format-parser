@@ -30,13 +30,7 @@ public class XMLParser implements FormatParser {
 
     @Override
     public void serialize(Object object, String fileName) {
-        try (FileWriter fw = new FileWriter(fileName)) {
-
-            this.getMarshaller(object).marshal(object, fw);
-
-        } catch (IOException | JAXBException e) {
-            e.printStackTrace();
-        }
+        this.serialize(object, new File(PATH + fileName));
     }
 
     @Override
@@ -52,7 +46,7 @@ public class XMLParser implements FormatParser {
 
     @Override
     public <T> T deserialize(String fileName, Class<T> type) {
-        return this.deserialize(new File(fileName), type);
+        return this.deserialize(new File(PATH + fileName), type);
     }
 
     @Override

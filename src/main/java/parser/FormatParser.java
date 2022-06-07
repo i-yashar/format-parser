@@ -6,6 +6,8 @@ import java.io.File;
 
 public interface FormatParser {
 
+    String PATH = "./src/main/resources/";
+
     String serialize(Object object);
 
     void serialize(Object object, String fileName);
