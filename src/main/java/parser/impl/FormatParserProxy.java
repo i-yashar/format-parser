@@ -37,36 +37,48 @@ public class FormatParserProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         StringBuilder sb = new StringBuilder();
-        Object result = null;
+        String methodName = method.getName();
 
-        sb.append("Method call to ").append(method.getName()).append(System.lineSeparator());
+        sb.append("Method call to ")
+                .append(methodName)
+                .append(System.lineSeparator());
+
         String action = "Action: ";
 
-        if (method.getName().equals("changeFormat")) {
-            action += "Change format from " + (ctx instanceof JSONParser ? "JSON" : "XML") + " to " + (args[0].equals(Format.JSON) ? "JSON" : "XML");
-            if (args[0].equals(Format.JSON)) {
-                PARSERS.putIfAbsent("json", new JSONParser());
-                ctx = (FormatParser) PARSERS.get("json");
-            } else if(args[0].equals(Format.XML)) {
-                PARSERS.putIfAbsent("xml", new XMLParser());
-                ctx = (FormatParser) PARSERS.get("xml");
-            }
-        } else if(method.getName().equals("setPrettyPrint")) {
+        if (methodName.equals("changeFormat")) {
+            action += "Change format from "
+                    + (ctx instanceof JSONParser ? "JSON" : "XML")
+                    + " to "
+                    + (args[0].equals(Format.JSON) ? "JSON" : "XML");
+
+            String format = args[0].equals(Format.JSON) ? "json" : "xml";
+
+            PARSERS.putIfAbsent(format, format.equals("json")
+                    ? new JSONParser()
+                    : new XMLParser());
+
+            ctx = (FormatParser) PARSERS.get(format);
+        } else if (methodName.equals("setPrettyPrint")) {
             action += "Set pretty print";
-        } else if(method.getName().equals("serialize") && args.length > 1) {
-            String fileName = (args[1] instanceof String) ? args[1].toString() : ((File) args[1]).getName();
-            action += "Serialize object of type " + args[0].getClass().getName() + " to file \"" + fileName + "\"";
-        } else if(method.getName().equals("deserialize")) {
-            String fileName = (args[0] instanceof String) ? args[0].toString() : ((File) args[0]).getName();
-            action += "Deserialize contents of file \"" + fileName + "\" to object of type " + ((Class<?>)args[1]).getSimpleName();
+        } else if (methodName.equals("serialize") && args.length > 1) {
+            String fileName = (args[1] instanceof String)
+                    ? args[1].toString()
+                    : ((File) args[1]).getName();
+            action += "Serialize object of type "
+                    + args[0].getClass().getName()
+                    + " to file \"" + fileName + "\"";
+        } else if (methodName.equals("deserialize")) {
+            String fileName = (args[0] instanceof String)
+                    ? args[0].toString()
+                    : ((File) args[0]).getName();
+            action += "Deserialize contents of file \"" + fileName + "\" to object of type "
+                    + ((Class<?>) args[1]).getSimpleName();
         }
 
         sb.append(action).append(System.lineSeparator());
 
         LOGGER.log(Level.INFO, sb.toString());
 
-        result = method.invoke(ctx, args);
-
-        return result;
+        return method.invoke(ctx, args);
     }
 }
